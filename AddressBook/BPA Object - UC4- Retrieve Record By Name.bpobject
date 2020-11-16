@@ -1,0 +1,121 @@
+﻿<process name="UC4- Retrieve Record By Name" version="1.0" bpversion="6.9.0.26970" narrative="" byrefcollection="true" type="object" runmode="Exclusive" preferredid="de158b14-8ebb-4cda-9317-630958c22367">
+  <appdef>
+    <element name="Application Root">
+      <id>5ab69659-4921-446f-91a9-4748882cd182</id>
+      <type>Application</type>
+      <basetype>Application</basetype>
+      <datatype>unknown</datatype>
+      <diagnose>False</diagnose>
+    </element>
+  </appdef>
+  <view>
+    <camerax>0</camerax>
+    <cameray>42</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <stage stageid="cd14af64-8bdb-4196-9231-f0b7aee7ca57" name="UC4- Retrieve Record By Name" type="SubSheetInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="92b75c73-de11-4a59-8641-8a618350dc2f" name="Start" type="Start">
+    <loginhibit />
+    <display x="15" y="-165" />
+    <onsuccess>b18d4359-8dc7-418e-b4d1-a1e034c1c149</onsuccess>
+  </stage>
+  <stage stageid="5b5895fc-fa86-4ee8-8220-be80f12cd280" name="End" type="End">
+    <loginhibit />
+    <display x="15" y="30" />
+  </stage>
+  <stage stageid="b18d4359-8dc7-418e-b4d1-a1e034c1c149" name="Set Connection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-120" />
+    <inputs>
+      <input type="text" name="Server" friendlyname="Server" narrative="The name of the server and, if necessary, instance name of the SQL Server instance to connect to" expr="&quot;(Localdb)\BluePrismLocalDB&quot;" />
+      <input type="text" name="Database" friendlyname="Database" narrative="The name of the database to connect to" expr="&quot;AddressBookBluePrism&quot;" />
+      <input type="text" name="User" friendlyname="User" narrative="If appropriate, the login name to use to connect to SQL Server. If left empty, windows authentication using the current user will be used instead of SQL Server authentication" expr="" />
+      <input type="password" name="Password" friendlyname="Password" narrative="If appropriate, the password to use with the above login name to access SQL Server. Unused for windows authentication" expr="" />
+    </inputs>
+    <onsuccess>6630c241-eb40-4ec6-bcb7-4a335dd70925</onsuccess>
+    <resource object="Data - SQL Server" action="Set Connection" />
+  </stage>
+  <stage stageid="a05f8a03-c805-4bfa-be69-47996e2b325d" name="Data - SQL Server::Get Collection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-15" />
+    <inputs>
+      <input type="text" name="SQL" friendlyname="SQL" narrative="The SQL query to use to perform this action" expr="&quot;SELECT [FirstName]&#xA;      ,[LastName]&#xA;      ,[Address]&#xA;      ,[City]&#xA;      ,[State]&#xA;      ,[Zip]&#xA;      ,[PhoneNumber]&#xA;      ,[Email]&#xA;  FROM [AddressBookBluePrism].[dbo].[AddressBook] where [FirstName]='Akash'&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="Flag indicating success (True) or failure (False)" stage="Success" />
+      <output type="text" name="Message" friendlyname="Message" narrative="Error message giving detail regarding why this action failed" stage="Message" />
+      <output type="collection" name="Results" friendlyname="Results" narrative="The collection of results from the query" stage="Results" />
+    </outputs>
+    <onsuccess>5b5895fc-fa86-4ee8-8220-be80f12cd280</onsuccess>
+    <resource object="Data - SQL Server" action="Get Collection" />
+  </stage>
+  <stage stageid="2aa83ba8-e709-462c-ad66-7ec5b5065bc7" name="Success" type="Data">
+    <display x="90" y="-15" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="52b3d21f-23d2-48d7-a709-714ef9ae0382" name="Message" type="Data">
+    <display x="150" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d24b02cb-c3b0-4c11-9576-253aa72015fb" name="Name" type="Data">
+    <loginhibit />
+    <display x="-180" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">"Akash"</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4241e9b6-8b6f-4585-b5d2-4485c997e9a3" name="Results" type="Collection">
+    <display x="225" y="-15" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="FirstName" type="text" />
+      <field name="LastName" type="text" />
+      <field name="Address" type="text" />
+      <field name="City" type="text" />
+      <field name="State" type="text" />
+      <field name="Zip" type="number" />
+      <field name="PhoneNumber" type="text" />
+      <field name="Email" type="text" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="6630c241-eb40-4ec6-bcb7-4a335dd70925" name="Data - SQL Server::Execute" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-75" />
+    <inputs>
+      <input type="text" name="Query" friendlyname="Query" narrative="The SQL query to use to perform this action" expr="&quot;update [AddressBookBluePrism].[dbo].[AddressBook] Set [City]='Andheri' where [FirstName]='Akash'&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="Flag indicating success (True) or failure (False)" stage="Success1" />
+      <output type="text" name="Message" friendlyname="Message" narrative="Error message giving detail regarding why this action failed" stage="Message1" />
+    </outputs>
+    <onsuccess>a05f8a03-c805-4bfa-be69-47996e2b325d</onsuccess>
+    <resource object="Data - SQL Server" action="Execute" />
+  </stage>
+  <stage stageid="326a2184-fe7d-4882-a488-477e5e64042c" name="Success1" type="Data">
+    <display x="195" y="-75" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6ed07020-9e31-4754-bf97-00d057d4ee1a" name="Message1" type="Data">
+    <display x="135" y="-75" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+</process>
